@@ -21,7 +21,7 @@ using std::this_thread::sleep_for;
 
 void LimpiarPantalla()
 {
-    system("clear");
+    system("clear"); // Ya que usaremos WSL//Linux
 }
 
 string center(const string &s, int width)
@@ -67,15 +67,14 @@ int interfaz()
 
         cout << "\033[33m";
         cout << center("[1] Jugar\n");
-        cout << center("[2] Resultados\n");
-        cout << center("[3] Opciones\n");
-        cout << center("[4] Salir\n\n");
+        cout << center("[2] Bromitas?\n");
+        cout << center("[3] Salir\n\n");
         cout << "\033[0m";
 
         cout << center("⚠ Seleccione una opción: ");
         cin >> elec;
 
-    } while (elec < 1 || elec > 4);
+    } while (elec < 1 || elec > 3);
 
     return elec;
 }
@@ -182,9 +181,6 @@ void salida()
     loadingBarSalida();
 }
 
-// =======================================
-// Función principal UX
-// =======================================
 int runUXMenu()
 {
     int elec = interfaz();
@@ -196,15 +192,13 @@ int runUXMenu()
         break;
 
     case 2:
-        // resultados
+        // Bromas
         break;
 
     case 3:
-        // opciones
-        break;
-
-    default:
         salida();
+        break;
+    default:
         break;
     }
 
