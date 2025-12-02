@@ -1,23 +1,33 @@
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Iinclude
+CXXFLAGS = -std=c++17 -Wall -Wextra -I include
+LDFLAGS = 
 
-SRC = src/main.cpp \
-      src/tile.cpp \
-      src/map.cpp \
-      src/renderer.cpp \
-      src/unit.cpp \
-      src/building.cpp \
-      src/controller.cpp \
-      src/game_engine.cpp
+SRC_DIR = src
+OBJ_DIR = obj
+BIN = juego
 
-TARGET = juego
+SRC = $(wildcard $(SRC_DIR)/*.cpp)
 
-all:
-	$(CXX) $(CXXFLAGS) $(SRC) -o $(TARGET)
+OBJ = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC))
+
+all: $(BIN)
+
+$(BIN): $(OBJ)
+	$(CXX) $(OBJ) -o $(BIN) $(LDFLAGS)
+	@echo "\n\033[1;32m🚀 Compilación completada: ./$(BIN)\033[0m"
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+	@mkdir -p $(OBJ_DIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	del /Q src\*.o $(TARGET).exe 2>nul || true
-	rm -f src/*.o $(TARGET) 2> /dev/null || true
+	@echo "🧹 Eliminando objetos..."
+	rm -rf $(OBJ_DIR)
 
-run: all
-	./$(TARGET)
+fclean: clean
+	@echo "🗑️ Eliminando ejecutable..."
+	rm -f $(BIN)
+
+re: fclean all
+
+.PHONY: all clean fclean re
